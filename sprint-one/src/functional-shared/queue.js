@@ -5,7 +5,7 @@ var Queue = function(){
   // dq,q,size 
   var someInstance = {dqCount: 0, qCount: 0, sizeCount: 0};
   _.extend(someInstance, queueMethods);
-  return someInstance; 
+  return someInstance;
 };
 
 var queueMethods = {
