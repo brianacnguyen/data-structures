@@ -10,7 +10,63 @@
 //Given a list of a million numbers, write a function that takes a new number and returns the closest number in the list using your BST 
 //Profile this against the same operation using an array.
 var BinarySearchTree = function(value){
+	var tree = {value: value, left: null, right: null};
+	_.extend(tree, searchTreeMethods);
+	return tree;
 };
+
+var searchTreeMethods = {}; 
+searchTreeMethods.insert = function(val,branch){
+	branch = (branch === undefined) ? this : branch;
+	if (val < branch.value) {
+		if (branch.left === null) {
+			branch.left = BinarySearchTree(val,branch.left);
+		}
+		else {
+			branch.insert(val,branch.left);
+		}
+	}
+	else if (val > branch.value) {
+		if (branch.right === null) { 
+			branch.right = BinarySearchTree(val,branch.right);
+		}
+		else {
+			branch.insert(val,branch.right);	
+		}
+	}
+};
+searchTreeMethods.contains = function(target, branch){
+	branch = (branch === undefined) ? this : branch;
+	var result = []
+	var test = (branch.value === target)
+	result.push (test); 
+	if (target < branch.value && branch.left !== null) {
+		var leftResult = branch.contains(target, branch.left);
+		result.push(leftResult);	
+	}
+	else if (target > branch.value && branch.right !== null) {
+		var rightResult = branch.contains(target, branch.right);
+		result.push(rightResult);
+	}
+	result = _.some(result); 
+	return result;
+};
+searchTreeMethods.depthFirstLog = function(func,branch){
+	branch = (branch === undefined) ? this : branch;
+	var result = []; 
+	result.push(func(branch.value));
+	if (branch.left !== null) {
+		var leftResult = branch.depthFirstLog(func, branch.left);
+		result.push(leftResult);
+	}
+	else if (branch.right !== null) {
+		var rightResult = branch.depthFirstLog(func, branch.right);
+		result.push(rightResult);
+	}
+	return result; 
+
+};
+
 
 
 /*
