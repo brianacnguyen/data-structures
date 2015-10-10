@@ -1,38 +1,39 @@
 var Tree = function(value){
-  var newTree = {};
-  newTree.value = value;
-
-  // your code here
-  newTree.children = [];  // needs to be an array containing a number of subtrees 
-  _.extend(newTree, treeMethods);
-  return newTree;
+	// creates newTree object
+	var newTree = {};
+	// assigning key value value to newTree
+	newTree.value = value;
+	// assign children key an empty array to newTree
+	newTree.children = []; 
+	// gives newTree methods stored in treeMethods
+	_.extend(newTree, treeMethods);
+	// return newTree
+	return newTree;
 };
 
-
-
-
-
+//creating object of treeMethods to store methods 
 var treeMethods = {};
 
+// storing addChild method to treeMethods 
 treeMethods.addChild = function(value){
-	// takes value and sets that as target of node and adds node as a child of the tree 
+	// creates a new tree using Tree function and push it to children array
 	this.children.push(Tree(value));
 };
 
+// storing contains method to treeMethods 
 treeMethods.contains = function(target){
-	// takes value and returns a boolean reflecting whether it can be found as the value of the target node or any descendant node
-	// applies contains to every node
-	// check if node has children
-	// if it does, do each function and 
-	// newtree = {value: null, children: [{value: 5, children:[]}]}
-	// this.contains(target, this.children[i])
-
-
+	// check if main tree has target value
+	// if main tree does not have target, check children (if any)
 	if (this.value !== target) {
+		//check if main tree has children
 		if (this.children.length > 0) {
+			// if main tree has children, check children for target value with child's value
+			// also check child for children
+			// mapped returns an array of booleans indicating if any children has target value
 			var mapped = _.map(this.children, function(val){
 				return val.contains(target);  
-			})
+			});
+			// check mapped for true and return it
 			return _.some(mapped);
 		}
 		else {
@@ -43,7 +44,6 @@ treeMethods.contains = function(target){
 		return true;
 	}
 };
-
 
 /*
  * Complexity: What is the time complexity of the above functions?
